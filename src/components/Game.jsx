@@ -4,6 +4,7 @@ import Board from "./Board"
 import Score from "./Score"
 import "../Game.css"
 import twoFour from "../helpers/algo"
+import Controls from "./Controls"
 
 class Game extends Component {
   constructor() {
@@ -78,6 +79,11 @@ class Game extends Component {
       [[], [], [], []]
     )
   }
+  resetBoard = () => {
+    this.setState({
+      game: this.putRandomTile(this.putRandomTile(Array(4).fill(Array(4).fill(0))))
+    })
+  }
   putRandomTile = board => {
     const gameBoard = [...board]
     const emptyIndices = gameBoard.reduce((acc, currentRow, rowNum) => {
@@ -109,10 +115,16 @@ class Game extends Component {
 
   render() {
     const board = this.state.game.slice();
+    const isBoardFull = board.reduce((acc, cur)=>{
+      const isCurrentRowFull = cur.every(col => col !== 0);
+      return acc & isCurrentRowFull; 
+    }, true);
+    if(isBoardFull) this.resetBoard();
     return (
       <div className="container">
         <Score board={board}/>
         <Board board={board} />
+        <Controls />
       </div>
     )
   }
