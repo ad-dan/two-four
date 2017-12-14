@@ -2,7 +2,7 @@
 .container {
   font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,'Helvetica Neue', sans-serif;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -138,17 +138,24 @@ div {
 }
 @media (max-width: 400px){
   .container {
-    justify-content: space-between;
+    justify-content: flex-start;
+    min-height: 100vh;
   }
-  .control-container, .info {
+  .cntrl {
     display: none;
+    font-size: 0;
   }
   .Tile {
-    width: 25vw;
-    height: 25vw;
-    line-height: 25vw;
-    font-size: 12vw;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    font-size: 30px;
     /* border: 1px solid lightcoral; */
+  }
+  .Score {
+    height: 50px;
+    font-size: 25px;
+    justify-content: space-around;
   }
   
 }

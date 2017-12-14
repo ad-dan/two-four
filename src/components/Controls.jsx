@@ -16,16 +16,11 @@ const Controls = () => {
     )
   })
   return (
-    <div>
-      <div className="control-container">
-      {controls}
+    <div className='cntrl'>
+      <div className="control-container">{controls}</div>
+      <div className="info">Controls</div>
     </div>
-    <div className='info'>
-      Controls
-    </div>
-    </div>
-    
   )
 }
 
-export default Controls;
+export default Controls

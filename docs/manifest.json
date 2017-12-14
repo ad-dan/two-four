@@ -9,7 +9,6 @@
     }
   ],
   "start_url": "./index.html",
-  "homepage": "https://ad-dan.github.io/two-four",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
