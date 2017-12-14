@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { random as randomInt } from "lodash"
+import { random as randomInt, debounce} from "lodash"
 import Board from "./Board"
 import Score from "./Score"
 import "../Game.css"
@@ -11,7 +11,9 @@ class Game extends Component {
   constructor() {
     super()
     this.state = {
-      game: this.putRandomTile(this.putRandomTile(Array(4).fill(Array(4).fill(0))))
+      game: this.putRandomTile(this.putRandomTile(Array(4).fill(Array(4).fill(0)))),
+      currentScore: 0,
+      highScore: 0
     }
   }
   componentDidMount() {
@@ -58,6 +60,31 @@ class Game extends Component {
           break;
       }
     })
+    const highScore = +window.localStorage.getItem('_2048_HIGHSCORE') || 0;
+    this.setState({
+      highScore
+    })
+  }
+  saveScores = (score) => {
+    const newScore = score;
+    const newHighScore = score > this.state.highScore ? score: null;
+
+    this.setState(prevState => {
+      if(newHighScore) {
+        return {
+          score: newScore,
+          highScore: newHighScore
+        }
+      } else {
+        return {
+          score: newScore
+        }
+      }
+    })
+  }
+  recordScore = () => {
+    const score = this.state.highScore;
+    localStorage.setItem('_2048_HIGHSCORE', `${score}`);
   }
   rightPlay = () => {
     const copy = this.state.game.slice();
@@ -133,7 +160,30 @@ class Game extends Component {
 
     return gameBoard
   }
-
+  componentDidUpdate(){
+    const sum = this.state.game.reduce((gameSum, row)=>{
+      const rowSum = row.reduce((colSum, col)=>{
+        return colSum+col;
+      },0);
+      return gameSum+rowSum;
+    },0);
+    const high = this.state.highScore;
+    if(sum > high) {
+      try {
+        localStorage.setItem('_2048_HIGHSCORE', `${sum}`);
+      } catch (e) {
+        console.warn(`Couldn't store high score`);
+      }
+        this.setState({
+        currentScore: sum,
+        highScore: sum
+      })
+    } else if (sum > this.state.currentScore) {
+      this.setState({
+        currentScore: sum
+      })
+    }
+  }
   render() {
     const board = this.state.game.slice();
     const isBoardFull = board.reduce((acc, cur)=>{
@@ -141,9 +191,10 @@ class Game extends Component {
       return acc & isCurrentRowFull; 
     }, true);
     if(isBoardFull) this.resetBoard();
+    
     return (
       <div className="container" ref={app => this.app = app}>
-        <Score board={board}/>
+        <Score board={board} current={this.state.currentScore} high={this.state.highScore}/>
         <Board board={board}/>
         <Controls />
       </div>

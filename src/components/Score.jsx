@@ -1,15 +1,11 @@
 import React from 'react'
 
-const Score = ({board}) => {
-  const sum = board.reduce((gameSum, row)=>{
-    const rowSum = row.reduce((colSum, col)=>{
-      return colSum+col;
-    },0);
-    return gameSum+rowSum;
-  },0)
+const Score = ({current, high}) => {
+
   return (
     <div className='Score'>
-      Current score: <span>{sum}</span>
+      <div className='Current-Score'>Score: {current} </div>
+      <div className='High-Score'>Your High Score: {high}</div>
     </div>
   )
 }

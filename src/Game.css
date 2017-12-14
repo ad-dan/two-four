@@ -7,7 +7,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #b71c1c;
+  background: #FB8C00;
   color: white;
   
   
@@ -39,16 +39,25 @@ div {
   width: 300px;
   height: 60px;
   font-weight: 300;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
+.Score > div {
+  width: 100%;
+  height: 25%;
+}
+
 .Board {
   overflow: hidden;
   font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: bold;
+  box-shadow: 1px 1px 5px #222;
+  background: #ffebee;
 }
 .Tile {
   width: 80px;
   height: 80px;
-  /* border: 1px solid lightcoral; */
   text-align: center;
   font-size: 30px;
   line-height: 80px;
@@ -58,7 +67,7 @@ div {
   font-size: 40px;
 }
 .size-0 {
-  background: #F84C67;
+  background: #ffebee;
 }
 .size-2 {
   background: #F81B3E;
@@ -101,7 +110,10 @@ div {
   text-align: center;
 }
 .btn-key {
-  background: #e53935;
+  background: #F2994A;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #F2C94C, #F2994A);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #F2C94C, #F2994A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -126,12 +138,19 @@ div {
 }
 @media (max-width: 350px){
   .Tile {
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
+    width: 25vw;
+    height: 25vw;
+    line-height: 25vw;
+    font-size: 12vw;
     /* border: 1px solid lightcoral; */
+  }
+  .container {
+    background: #FB8C00;
   }
   .control-container, .info {
     display: none;
+  }
+  .container {
+    justify-content: space-between;
   }
 }
