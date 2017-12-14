@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { random as randomInt, debounce} from "lodash"
+import { random as randomInt } from "lodash"
 import Board from "./Board"
 import Score from "./Score"
 import "../Game.css"
@@ -11,66 +11,68 @@ class Game extends Component {
   constructor() {
     super()
     this.state = {
-      game: this.putRandomTile(this.putRandomTile(Array(4).fill(Array(4).fill(0)))),
+      game: this.putRandomTile(
+        this.putRandomTile(Array(4).fill(Array(4).fill(0)))
+      ),
       currentScore: 0,
       highScore: 0
     }
   }
   componentDidMount() {
-    window.addEventListener('keypress',(e)=>{
-      switch(e.key.toLowerCase()) {
-        case 'd':
-          this.rightPlay();
-          break;
-        case 's': 
-          this.downPlay();
-          break;
-        case 'a':
-          this.leftPlay();
-          break;
-        case 'w':
-          this.upPlay();
-          break;
+    window.addEventListener("keypress", e => {
+      switch (e.key.toLowerCase()) {
+        case "d":
+          this.rightPlay()
+          break
+        case "s":
+          this.downPlay()
+          break
+        case "a":
+          this.leftPlay()
+          break
+        case "w":
+          this.upPlay()
+          break
         default:
-          break;
+          break
       }
     })
     const gameSwiper = new Hammer(this.app, {
-      touchAction: 'none'
-    });
-    gameSwiper.get('swipe').set({
+      touchAction: "none"
+    })
+    gameSwiper.get("swipe").set({
       direction: Hammer.DIRECTION_ALL
     })
-    gameSwiper.on('swipe', e =>{
-      e.preventDefault();
-      switch(e.direction) {
+    gameSwiper.on("swipe", e => {
+      e.preventDefault()
+      switch (e.direction) {
         case 4:
-          this.rightPlay();
-          break;
-        case 16: 
-          this.downPlay();
-          break;
+          this.rightPlay()
+          break
+        case 16:
+          this.downPlay()
+          break
         case 2:
-          this.leftPlay();
-          break;
+          this.leftPlay()
+          break
         case 8:
-          this.upPlay();
-          break;
+          this.upPlay()
+          break
         default:
-          break;
+          break
       }
     })
-    const highScore = +window.localStorage.getItem('_2048_HIGHSCORE') || 0;
+    const highScore = +window.localStorage.getItem("_2048_HIGHSCORE") || 0
     this.setState({
       highScore
     })
   }
-  saveScores = (score) => {
-    const newScore = score;
-    const newHighScore = score > this.state.highScore ? score: null;
+  saveScores = score => {
+    const newScore = score
+    const newHighScore = score > this.state.highScore ? score : null
 
     this.setState(prevState => {
-      if(newHighScore) {
+      if (newHighScore) {
         return {
           score: newScore,
           highScore: newHighScore
@@ -83,11 +85,11 @@ class Game extends Component {
     })
   }
   recordScore = () => {
-    const score = this.state.highScore;
-    localStorage.setItem('_2048_HIGHSCORE', `${score}`);
+    const score = this.state.highScore
+    localStorage.setItem("_2048_HIGHSCORE", `${score}`)
   }
   rightPlay = () => {
-    const copy = this.state.game.slice();
+    const copy = this.state.game.slice()
     const newBoard = copy.map(row => {
       return twoFour(row)
     })
@@ -113,7 +115,9 @@ class Game extends Component {
   }
   upPlay = () => {
     const swappedBoard = this.swapPos(this.state.game)
-    const twoFouredCols = swappedBoard.map(col => twoFour(col.reverse()).reverse())
+    const twoFouredCols = swappedBoard.map(col =>
+      twoFour(col.reverse()).reverse()
+    )
     const colsToRows = this.swapPos(twoFouredCols)
     this.setState({
       game: this.putRandomTile(colsToRows)
@@ -132,7 +136,9 @@ class Game extends Component {
   }
   resetBoard = () => {
     this.setState({
-      game: this.putRandomTile(this.putRandomTile(Array(4).fill(Array(4).fill(0))))
+      game: this.putRandomTile(
+        this.putRandomTile(Array(4).fill(Array(4).fill(0)))
+      )
     })
   }
   putRandomTile = board => {
@@ -160,21 +166,21 @@ class Game extends Component {
 
     return gameBoard
   }
-  componentDidUpdate(){
-    const sum = this.state.game.reduce((gameSum, row)=>{
-      const rowSum = row.reduce((colSum, col)=>{
-        return colSum+col;
-      },0);
-      return gameSum+rowSum;
-    },0);
-    const high = this.state.highScore;
-    if(sum > high) {
+  componentDidUpdate() {
+    const sum = this.state.game.reduce((gameSum, row) => {
+      const rowSum = row.reduce((colSum, col) => {
+        return colSum + col
+      }, 0)
+      return gameSum + rowSum
+    }, 0)
+    const high = this.state.highScore
+    if (sum > high) {
       try {
-        localStorage.setItem('_2048_HIGHSCORE', `${sum}`);
+        localStorage.setItem("_2048_HIGHSCORE", `${sum}`)
       } catch (e) {
-        console.warn(`Couldn't store high score`);
+        console.warn(`Couldn't store high score`)
       }
-        this.setState({
+      this.setState({
         currentScore: sum,
         highScore: sum
       })
@@ -185,17 +191,21 @@ class Game extends Component {
     }
   }
   render() {
-    const board = this.state.game.slice();
-    const isBoardFull = board.reduce((acc, cur)=>{
-      const isCurrentRowFull = cur.every(col => col !== 0);
-      return acc & isCurrentRowFull; 
-    }, true);
-    if(isBoardFull) this.resetBoard();
-    
+    const board = this.state.game.slice()
+    const isBoardFull = board.reduce((acc, cur) => {
+      const isCurrentRowFull = cur.every(col => col !== 0)
+      return acc & isCurrentRowFull
+    }, true)
+    if (isBoardFull) this.resetBoard()
+
     return (
-      <div className="container" ref={app => this.app = app}>
-        <Score board={board} current={this.state.currentScore} high={this.state.highScore}/>
-        <Board board={board}/>
+      <div className="container" ref={app => (this.app = app)}>
+        <Score
+          board={board}
+          current={this.state.currentScore}
+          high={this.state.highScore}
+        />
+        <Board board={board} />
         <Controls />
       </div>
     )

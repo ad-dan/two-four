@@ -7,9 +7,9 @@ const Controls = () => {
     { btn: "S", action: "Down" },
     { btn: "D", action: "Left" }
   ]
-  const controls = controlsArray.map(control => {
+  const controls = controlsArray.map((control, i) => {
     return (
-      <div className="btn-box">
+      <div className="btn-box" key={`control-${i}`}>
         <div className="btn-key">{control.btn}</div>
         <div className="btn-info">{control.action}</div>
       </div>

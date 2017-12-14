@@ -136,7 +136,13 @@ div {
   font-size: 36px;
   font-weight: 300;
 }
-@media (max-width: 350px){
+@media (max-width: 400px){
+  .container {
+    justify-content: space-between;
+  }
+  .control-container, .info {
+    display: none;
+  }
   .Tile {
     width: 25vw;
     height: 25vw;
@@ -144,13 +150,5 @@ div {
     font-size: 12vw;
     /* border: 1px solid lightcoral; */
   }
-  .container {
-    background: #FB8C00;
-  }
-  .control-container, .info {
-    display: none;
-  }
-  .container {
-    justify-content: space-between;
-  }
+  
 }
